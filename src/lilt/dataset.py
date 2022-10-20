@@ -1,27 +1,27 @@
-from PIL import Image
+# %%writefile dataset.py
+import pandas as pd
+import os
+from PIL import Image, ImageDraw
 import numpy as np
 import pytesseract
 import torch
 
 ## I guess, I got my own script for it, from https://github.com/shabie/docformer/blob/master/src/docformer/dataset.py
 
-
 def rescale_bbox(bbox, img_width : int, 
                  img_height : int, size : int = 1000):
-    x0, x1, y0, y1, width, height = bbox
-    x0 = int(size * (x0 / img_width))
-    x1 = int(size * (x1 / img_width))
-    y0 = int(size * (y0 / img_height))
-    y1 = int(size * (y1 / img_height))
-    width = int(size * (width / img_width))
-    height = int(size * (height / img_height))
-    return [x0, x1, y0, y1, width, height]
-
+  x0, x1, y0, y1, width, height = bbox
+  x0 = int(size * (x0 / img_width))
+  x1 = int(size * (x1 / img_width))
+  y0 = int(size * (y0 / img_height))
+  y1 = int(size * (y1 / img_height))
+  width = int(size * (width / img_width))
+  height = int(size * (height / img_height))
+  return [x0, x1, y0, y1, width, height]
 
 def coordinate_features(df_row):
     xmin, ymin, width, height = df_row["left"], df_row["top"], df_row["width"], df_row["height"]
     return [xmin, xmin + width, ymin, ymin + height, width, height]  ## [xmin, xmax, ymin, ymax, width, height]
-
 
 def get_ocr_results(image_path : str):
 
@@ -52,7 +52,6 @@ def get_ocr_results(image_path : str):
 
 ## Stealed from here: https://github.com/uakarsh/latr/blob/main/src/latr/dataset.py
 
-
 def get_tokens_with_boxes(unnormalized_word_boxes, list_of_words, 
                           tokenizer, pad_token_id : int = 0, 
                           pad_token_box = [0, 0, 0, 0, 0, 0], 
@@ -69,6 +68,7 @@ def get_tokens_with_boxes(unnormalized_word_boxes, list_of_words,
 
     assert len(unnormalized_word_boxes) == len(list_of_words), "Bounding box length != total words length"
     
+    length_of_box = len(unnormalized_word_boxes)
     unnormalized_token_boxes = []
     tokenized_words = []
 
@@ -77,26 +77,32 @@ def get_tokens_with_boxes(unnormalized_word_boxes, list_of_words,
     tokenized_words.extend([tokenizer.cls_token_id])  ## CLS Token Box is same as pad_token_box, if not, you can change here
 
     ## Normal for loop
+    idx = 0
     for box, word in zip(unnormalized_word_boxes, list_of_words):
-        current_tokens = tokenizer(word, add_special_tokens = False).input_ids
-        unnormalized_token_boxes.extend([box]*len(current_tokens))
-        tokenized_words.extend(current_tokens)
+      if idx != 0:
+        new_word = " " + word
+      else:
+        new_word = word
+      current_tokens = tokenizer(new_word, add_special_tokens = False).input_ids
+      unnormalized_token_boxes.extend([box]*len(current_tokens))
+      tokenized_words.extend(current_tokens)
+      idx += 1
 
     ## For post processing the token box
     if len(unnormalized_token_boxes)<max_seq_len:
-        unnormalized_token_boxes.extend([sep_token_box])
-        unnormalized_token_boxes.extend([pad_token_box] * (max_seq_len-len(unnormalized_token_boxes)))
-      
+      unnormalized_token_boxes.extend([sep_token_box])
+      unnormalized_token_boxes.extend([pad_token_box] * (max_seq_len-len(unnormalized_token_boxes)))
+    
     else:
-        unnormalized_token_boxes[max_seq_len - 1] = sep_token_box
+      unnormalized_token_boxes[max_seq_len - 1] = sep_token_box
 
     ## For post processing the tokenized words
     if len(tokenized_words) < max_seq_len:
-        tokenized_words.extend([tokenizer.sep_token_id])
-        tokenized_words.extend([pad_token_id]* (max_seq_len-len(tokenized_words)))
+      tokenized_words.extend([tokenizer.sep_token_id])
+      tokenized_words.extend([pad_token_id]* (max_seq_len-len(tokenized_words)))
 
     else:
-        tokenized_words[max_seq_len - 1] = tokenizer.sep_token_id
+      tokenized_words[max_seq_len - 1] = tokenizer.sep_token_id
         
     return unnormalized_token_boxes[:max_seq_len], tokenized_words[:max_seq_len]
 
@@ -110,11 +116,11 @@ def create_features(
     bounding_box = None,
     words = None ):
   
-    image = Image.open(img_path).convert("RGB")
-    ocr_results = get_ocr_results(img_path)
-    ocr_results['rescale_bbox'] = list(map(lambda x: rescale_bbox(x, *image.size, size  = size), ocr_results['bbox']))
-    boxes, words = get_tokens_with_boxes(ocr_results['rescale_bbox'], ocr_results['words'], tokenizer)
-    torch_boxes = torch.as_tensor(boxes)
-    torch_words = torch.as_tensor(words)
+  image = Image.open(img_path).convert("RGB")
+  ocr_results = get_ocr_results(img_path)
+  ocr_results['rescale_bbox'] = list(map(lambda x: rescale_bbox(x, *image.size, size  = size), ocr_results['bbox']))
+  boxes, words = get_tokens_with_boxes(ocr_results['rescale_bbox'], ocr_results['words'], tokenizer)
+  torch_boxes = torch.as_tensor(boxes)
+  torch_words = torch.as_tensor(words)
 
-    return torch_boxes, torch_words, ocr_results['bbox']
+  return torch_boxes, torch_words, ocr_results['bbox']

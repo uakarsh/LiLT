@@ -41,6 +41,7 @@ def get_ocr_results(image_path : str):
     ocr_df[float_cols] = ocr_df[float_cols].round(0).astype(int)
     ocr_df = ocr_df.replace(r"^\s*$", np.nan, regex=True)
     ocr_df = ocr_df.dropna().reset_index(drop=True)
+    ocr_df = ocr_df.sort_values(by=['left', 'top'])  ## Sorting the values on the basis of left, top bounding box coordinates
 
     ## Finally getting the words and the bounding box
     words = list(ocr_df.text.apply(lambda x: str(x).strip()))

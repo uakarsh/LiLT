@@ -8,7 +8,7 @@ LiLT can be pre-trained on the structured documents of a single language and the
 monolingual/multilingual pre-trained textual models. Experimental results on eight languages have shown that LiLT can achieve competitive or even superior performance on diverse widely-used downstream benchmarks, which enables language-independent benefit from the pre-training of document layout structure
 
 ## Demo
-
+![lilt architecture](images/demo.gif)
 An interactive demo for the same can be found out [here](https://huggingface.co/spaces/iakarshu/lilt)
 
 ## Install
@@ -27,7 +27,7 @@ pip install -q torchmetrics
 
 ## Usage
 
-* The training of LiLT from scratch with PyTorch Lightening can be referred [here](https://github.com/uakarsh/LiLT/tree/main/notebooks)
+* The training of LiLT from scratch with PyTorch Lightning can be referred [here](https://github.com/uakarsh/LiLT/tree/main/notebooks)
 
 ## Results:
 

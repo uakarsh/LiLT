@@ -49,7 +49,7 @@ config = {
 }
 ```
 
-* The results of all the experiments can be found out [here]([https://wandb.ai/iakarshu/VQA%20with%20LaTr?workspace=](https://wandb.ai/iakarshu/RVL%20CDIP%20with%20LiLT?workspace=user-iakarshu))
+* The results of all the experiments can be found out [here](https://wandb.ai/iakarshu/RVL%20CDIP%20with%20LiLT?workspace=user-iakarshu)
 
 The same weights can be downloaded by the command as follows:
 ```

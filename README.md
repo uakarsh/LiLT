@@ -73,6 +73,16 @@ MIT
 ## Citations
 
 ```bibtex
-
+@inproceedings{wang-etal-2022-lilt,
+    title = "{L}i{LT}: A Simple yet Effective Language-Independent Layout Transformer for Structured Document Understanding",
+    author={Wang, Jiapeng and Jin, Lianwen and Ding, Kai},
+    booktitle = "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = may,
+    year = "2022",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2022.acl-long.534",
+    doi = "10.18653/v1/2022.acl-long.534",
+    pages = "7747--7757",
+}
 ```
 

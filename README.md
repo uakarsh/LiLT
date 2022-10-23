@@ -14,11 +14,15 @@ An interactive demo for the same can be found out [here](https://huggingface.co/
 ## Install
 
 ```python
-pip install transformers
-pip install sentencepiece==0.1.91
-pip install pytesseract
-sudo apt install tesseract-ocr
-pip install 'Pillow==7.1.2'
+pip install -q pytesseract
+sudo apt install  -q tesseract-ocr
+pip install  -q transformers
+pip install  -q pytorch-lightning
+pip install  -q einops
+pip install  -q tqdm
+pip install  -q 'Pillow==7.1.2'
+pip install -q wandb
+pip install -q torchmetrics
 ```
 
 ## Usage

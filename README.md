@@ -57,7 +57,7 @@ pip install gdown
 gdown 1eRV4fS_LFwI5MHqcRwLUNQZgewxI6Se_
 ```
 
-* The script of the same can be found out [here]([https://www.kaggle.com/code/akarshu121/latr-textvqa-training-with-wandb](https://www.kaggle.com/code/akarshu121/lilt-4-lilt-for-specific-purpose-rvl-cdip))
+* The script of the same can be found out [here](https://www.kaggle.com/code/akarshu121/lilt-4-lilt-for-specific-purpose-rvl-cdip)
 
 ##  License
 

@@ -27,7 +27,7 @@ pip install -q torchmetrics
 
 ## Usage
 
-* The training of LiLT from scratch with PyTorch Lightening can be referred [here](https://github.com/uakarsh/LiLT/tree/main/notebooks)
+* The training of LiLT from scratch with PyTorch Lightning can be referred [here](https://github.com/uakarsh/LiLT/tree/main/notebooks)
 
 ## Results:
 

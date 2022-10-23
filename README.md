@@ -9,7 +9,7 @@ monolingual/multilingual pre-trained textual models. Experimental results on eig
 
 ## Demo
 
-An interactive demo for the same can be found out [here]([https://huggingface.co/spaces/iakarshu/latr-vqa](https://huggingface.co/spaces/iakarshu/lilt))
+An interactive demo for the same can be found out [here](https://huggingface.co/spaces/iakarshu/lilt)
 
 ## Install
 
